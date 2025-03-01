@@ -19,11 +19,13 @@ TaskManager.defineTask("BACKGROUND_STOPWATCH", async () => {
   try {
     // Logic to keep track of time or perform actions like updating async storage
     const state = store.getState().stopwatch;
-    const { steps } = state;
-    intervalId = setInterval(() => {
-      store.dispatch(setDuration());
-    }, 1000);
-    store.dispatch(setStepCount(steps + 1));
+    const { steps, isRunning } = state;
+    if (isRunning) {
+      intervalId = setInterval(() => {
+        store.dispatch(setDuration());
+      }, 1000);
+      store.dispatch(setStepCount(steps + 1));
+    }
     // store.dispatch(setCalories(calculateCalories(75, steps + 1)));
     // Return NewData to indicate the task succeeded
     return BackgroundFetch.BackgroundFetchResult.NewData;
@@ -35,9 +37,13 @@ TaskManager.defineTask("BACKGROUND_STOPWATCH", async () => {
 });
 
 const Stopwatch = () => {
-  const { isPedometerAvailable } = useSteps();
+  const { isPedometerAvailable, stopWatching } = useSteps();
+  const { selectedActivity } = useSelector(
+    (state: RootState) => state.stopwatch
+  );
   // add all logic inside this hook spilt logic
-  useStopwatchComponent(intervalId);
+  const { isLoading, checkActivity, loadActivities } =
+    useStopwatchComponent(intervalId);
   const stopwatch = useSelector((state: RootState) => state.stopwatch);
   const { duration, calories, steps } = stopwatch;
   const { hours, minutes, seconds } = getHoursAndMinutesFromDuration(duration);
@@ -48,24 +54,14 @@ const Stopwatch = () => {
       </View>
     );
   }
+
   useEffect(() => {
-    const startBackgroundFetch = async () => {
-      await BackgroundFetch.registerTaskAsync("BACKGROUND_STOPWATCH", {
-        minimumInterval: 15, // In minutes
-        stopOnTerminate: false,
-        startOnBoot: true,
-      });
-    };
+    loadActivities();
+    checkActivity();
+  }, [selectedActivity, isLoading]);
 
-    startBackgroundFetch();
-
-    return () => {
-      BackgroundFetch.unregisterTaskAsync("BACKGROUND_STOPWATCH");
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-    };
+  useEffect(() => {
+    loadActivities();
   }, []);
   return (
     <View style={styles.container}>
@@ -73,7 +69,7 @@ const Stopwatch = () => {
         {hours} : {minutes} : {seconds}
       </Text>
       <Text style={styles.placeholder}>Time Elapsed</Text>
-      <ActionContainer />
+      <ActionContainer stopWatching={stopWatching} />
       <View style={styles.detailsContainer}>
         <InfoCard data={steps} differentiationText="Steps" />
         <InfoCard data={calories} differentiationText="Calories" />

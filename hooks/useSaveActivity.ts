@@ -119,7 +119,7 @@ const useSaveActivity = () => {
     } catch (error) {
       Alert.alert("Error", "Failed to clear history.");
     } finally {
-      loadActivities();
+      setIsLoading(false);
     }
   };
   const clearActivities = async () => {

@@ -49,14 +49,13 @@ export default function Onboarding() {
   }
 
   useEffect(() => {
-    if (!step) {
+    if (!isLoading) {
       step === 3 && route.replace("/(tabs)");
     }
   }, [isLoading, step]);
-
-  return (
+  return step === 3 ? null : (
     <ImageBackground
-      source={steps[step].path}
+      source={steps[step]?.path}
       style={styles.background}
       resizeMode="cover"
     >
@@ -94,7 +93,7 @@ export default function Onboarding() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   container: {
     flex: 1,

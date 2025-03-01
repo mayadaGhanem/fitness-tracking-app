@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import ActivityListLoading from "@/components/RecentActivities/ActivityListLoading";
 import { useRecentActivitiesComponent } from "@/hooks/useRecentActivitiesComponent";
-
 export default function Home() {
+
   const { isLoading, filteredActivities } = useRecentActivitiesComponent();
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
@@ -25,7 +25,6 @@ export default function Home() {
       )}
     </View>
   );
-
 
   return isLandscape ? (
     <ScrollView showsVerticalScrollIndicator={true} style={styles.scrollView}>

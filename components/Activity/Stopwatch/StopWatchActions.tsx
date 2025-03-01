@@ -7,13 +7,16 @@ import { resetStopwatch, setIsRunning } from "@/redux/StopWatch/stopWatchSlice";
 import { RootState } from "@/redux/store";
 import useSaveActivity from "@/hooks/useSaveActivity";
 
-export default function ActionContainer() {
-  const { saveActivityToStorage, clearActivityFromStorage , activities} = useSaveActivity();
+export default function ActionContainer({
+  stopWatching,
+}: {
+  stopWatching: () => void;
+}) {
+  const { saveActivityToStorage, clearActivityFromStorage } = useSaveActivity();
   const stopwatchState = useSelector((state: RootState) => state.stopwatch);
   const { isRunning } = stopwatchState;
   const dispatch = useDispatch();
 
-  
   const startStopwatch = () => {
     dispatch(setIsRunning(true));
   };
@@ -24,6 +27,7 @@ export default function ActionContainer() {
       ...stopwatchState,
       type: stopwatchState.selectedActivity,
     });
+    stopWatching();
   };
 
   const resetStopwatchHandler = async () => {

@@ -1,12 +1,23 @@
 import { Tabs } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Platform, useWindowDimensions } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNotification } from "@/hooks/useNotifications";
+import * as Notifications from "expo-notifications";
 
 export default function TabLayout() {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
+  const { scheduleReminder } = useNotification();
+  useEffect(() => {
+    async function setupNotifications() {
+      await Notifications.cancelAllScheduledNotificationsAsync(); // Clear old notifications
+      await scheduleReminder();
+    }
+
+    setupNotifications();
+  }, []);
   return (
     <Tabs
       screenOptions={{
@@ -30,7 +41,11 @@ export default function TabLayout() {
         sceneStyle: {
           backgroundColor: Colors.dark.background,
           paddingTop: Platform.OS === "ios" ? (isLandscape ? 64 : 100) : 64,
-          paddingHorizontal: isLandscape?(Platform.OS === "ios" ? 70 : 64):0,
+          paddingHorizontal: isLandscape
+            ? Platform.OS === "ios"
+              ? 70
+              : 64
+            : 0,
         },
       }}
     >
@@ -43,7 +58,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      
+
       <Tabs.Screen
         name="activityTracking"
         options={{
