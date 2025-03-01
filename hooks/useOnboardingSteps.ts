@@ -27,7 +27,7 @@ export function useOnboardingSteps() {
 
   const loadSteps = async () => {
     try {
-      await AsyncStorage.removeItem("step");
+      // await AsyncStorage.removeItem("step");
 
       const storedData = await AsyncStorage.getItem("step");
 
