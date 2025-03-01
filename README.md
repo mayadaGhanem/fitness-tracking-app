@@ -20,7 +20,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 [Figma](https://www.figma.com/design/k6u2hLS2u5fQ0sRwSvS7eb/Fitness-App-UI-Kit-for-Gym-Workout-App-Fitness-Tracker-Mobile-App-Gym-Fitness-Mobile-App-UI-Kit-(Community)?node-id=3178-4438&t=8dsA8raePmMdbqww-0)
 
 
-screen shots 
+screenshots
 
 ![WhatsApp Image 2025-03-01 at 11 45 40 PM](https://github.com/user-attachments/assets/511da117-f5f2-4bc4-9c21-f7e841c71254)
 ![WhatsApp Image 2025-03-01 at 11 45 40 PM (1)](https://github.com/user-attachments/assets/e6a763b6-9589-4667-b216-652e871b32de)
