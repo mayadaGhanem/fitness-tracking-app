@@ -19,6 +19,8 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 [Figma](https://www.figma.com/design/k6u2hLS2u5fQ0sRwSvS7eb/Fitness-App-UI-Kit-for-Gym-Workout-App-Fitness-Tracker-Mobile-App-Gym-Fitness-Mobile-App-UI-Kit-(Community)?node-id=3178-4438&t=8dsA8raePmMdbqww-0)
 
+to download apk  scan this qrcode
+![image](https://github.com/user-attachments/assets/10f2165b-35e7-4a84-8f94-7a6844f8528b)
 
 screenshots
 
