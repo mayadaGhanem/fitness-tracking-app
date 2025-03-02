@@ -60,9 +60,9 @@ const Stopwatch = () => {
     checkActivity();
   }, [selectedActivity, isLoading]);
 
-  useEffect(() => {
-    loadActivities();
-  }, []);
+  // useEffect(() => {
+  //   loadActivities();
+  // }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.text}>

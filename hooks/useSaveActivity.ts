@@ -12,11 +12,7 @@ const useSaveActivity = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      loadActivities();
-    }, 2000);
-
-    return () => clearTimeout(timeoutId);
+    loadActivities();
   }, []);
 
   useFocusEffect(
