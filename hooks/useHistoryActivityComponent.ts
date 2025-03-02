@@ -18,7 +18,7 @@ export function useHistoryActivityComponent() {
   useEffect(() => {
     !isLoading &&
       setFilteredActivities(
-        activities.sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
+        activities?.sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
       );
   }, [isLoading]);
 

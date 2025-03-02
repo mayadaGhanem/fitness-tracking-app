@@ -3,7 +3,7 @@
     "name": "fitness-tracking-app",
     "slug": "fitness-tracking-app",
     "version": "1.0.0",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/splashscreen_logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
