@@ -17,11 +17,23 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```
 [DEMO DATA Recorded in drive](https://1drv.ms/f/c/85e67ed220bf31fb/Egp_vva-5H5DqGMlBKL3zhoBOr9J_hi3ZiJ_3Q6HaY6iwg?e=Oocwgk)
 
+
+
+---------
+
 [Figma](https://www.figma.com/design/k6u2hLS2u5fQ0sRwSvS7eb/Fitness-App-UI-Kit-for-Gym-Workout-App-Fitness-Tracker-Mobile-App-Gym-Fitness-Mobile-App-UI-Kit-(Community)?node-id=3178-4438&t=8dsA8raePmMdbqww-0)
 
+
+-------------------------
+
 to download apk  scan this qrcode
+
+
 ![WhatsApp Image 2025-03-02 at 3 02 43 PM](https://github.com/user-attachments/assets/240516ec-b467-4d42-b958-1e8961f612d5)
 
+
+
+-----------------
 screenshots
 
 ![WhatsApp Image 2025-03-01 at 11 45 40 PM](https://github.com/user-attachments/assets/511da117-f5f2-4bc4-9c21-f7e841c71254)
