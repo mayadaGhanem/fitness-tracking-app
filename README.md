@@ -27,11 +27,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 -------------------------
 
 to download apk  scan this qrcode
-
-
-![WhatsApp Image 2025-03-02 at 3 02 43 PM](https://github.com/user-attachments/assets/240516ec-b467-4d42-b958-1e8961f612d5)
-
-
+![WhatsApp Image 2025-03-02 at 3 44 44 PM](https://github.com/user-attachments/assets/7f806c49-9c27-4d84-9c4b-8bf79e4ae90f)
 
 -----------------
 screenshots
