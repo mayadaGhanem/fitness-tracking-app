@@ -26,8 +26,11 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 -------------------------
 
-to download apk  scan this qrcode
-![WhatsApp Image 2025-03-02 at 3 48 54 PM](https://github.com/user-attachments/assets/2636cb13-01e6-4d97-899c-8478b7b58ea1)
+to download apk 
+visit https://expo.dev/accounts/mayadaha/projects/trackingfitnessapp/builds/532bdedb-3e03-4393-b398-cf0cf6919457
+or scan this qrcode
+
+![WhatsApp Image 2025-03-03 at 2 42 12 PM](https://github.com/user-attachments/assets/54de323a-551e-4921-a046-582176d77673)
 
 -----------------
 screenshots
