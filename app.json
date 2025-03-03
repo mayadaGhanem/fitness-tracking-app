@@ -12,17 +12,20 @@
       "bundleIdentifier": "y",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "icon": "./assets/images/splashscreen_logo.png"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/splashscreen_logo.png"
       },
       "permissions": [
-        "android.permission.RECORD_AUDIO"
+        "android.permission.RECORD_AUDIO",
+        "ACCESS_FINE_LOCATION",
+        "ACTIVITY_RECOGNITION"
       ],
-      "package": "com.mayadagh.fitnesstrackingapp"
+      "package": "com.mayadagh.fitnesstrackingapp",
+      "icon": "./assets/images/splashscreen_logo.png"
     },
     "web": {
       "bundler": "metro",

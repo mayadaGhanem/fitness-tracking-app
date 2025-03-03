@@ -7,28 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 export function useSteps() {
   const dispatch = useDispatch();
-  const { isRunning } = useSelector(
-    (state: RootState) => state.stopwatch
-  );
-   const [isPedometerAvailable, setIsPedometerAvailable] =
+  const { isRunning } = useSelector((state: RootState) => state.stopwatch);
+  const [isPedometerAvailable, setIsPedometerAvailable] =
     useState<boolean>(false);
 
   let stepWatch: Pedometer.Subscription | null = null;
   useEffect(() => {
-    const checkPedometerAvailability = async () => {
-      const available = await Pedometer.isAvailableAsync();
-      setIsPedometerAvailable(available);
-
-      if (!available) {
-        Alert.alert(
-          "Pedometer Not Available",
-          "Your device does not support step tracking."
-        );
-      }
-    };
-
     checkPedometerAvailability();
-   }, []);
+  }, []);
 
   useEffect(() => {
     let intervalId: any;
@@ -39,7 +25,7 @@ export function useSteps() {
         dispatch(setDuration());
       }, 1000);
       stepWatch = Pedometer.watchStepCount((result) => {
-         dispatch(setStepCount(result.steps)); // Dispatch to Redux
+        dispatch(setStepCount(result.steps)); // Dispatch to Redux
       });
     }
 
@@ -56,6 +42,33 @@ export function useSteps() {
   const stopWatching = () => {
     if (stepWatch) {
       stepWatch.remove();
+    }
+  };
+
+  const handlePedometerPermission = async () => {
+    const permissions = await Pedometer.getPermissionsAsync();
+    if (!permissions.granted) {
+      await Pedometer.requestPermissionsAsync();
+      const updatedPermissions = await Pedometer.getPermissionsAsync();
+      if (!updatedPermissions.granted) {
+        Alert.alert(
+          "You cannot calculate your steps until you share your steps taken"
+        );
+      }
+    }
+  };
+
+  const checkPedometerAvailability = async () => {
+    const available = await Pedometer.isAvailableAsync();
+    setIsPedometerAvailable(available);
+
+    if (!available) {
+      Alert.alert(
+        "Pedometer Not Available",
+        "Your device does not support step tracking."
+      );
+    } else {
+      handlePedometerPermission();
     }
   };
   return { isPedometerAvailable, stopWatching };
