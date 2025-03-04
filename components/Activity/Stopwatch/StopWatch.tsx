@@ -17,6 +17,7 @@ import { calculateCalories } from "@/helpers/getCalories";
 import { Pedometer } from "expo-sensors";
 import { getSavedActivity } from "@/helpers/handleActivityStorage";
 
+
 let intervalId: any;
 // Define the background task
 TaskManager.defineTask("BACKGROUND_STOPWATCH", async () => {
