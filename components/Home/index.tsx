@@ -1,28 +1,23 @@
 // Home Component
 import ActivityList from "@/components/RecentActivities/ActivityList";
 import ActivitySummary from "@/components/Home/ActivityStatistics/ActivitySummary";
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import ActivityListLoading from "@/components/RecentActivities/ActivityListLoading";
 import { useRecentActivitiesComponent } from "@/hooks/useRecentActivitiesComponent";
 export default function Home() {
-
-  const { isLoading, filteredActivities } = useRecentActivitiesComponent();
+  const { filteredActivities } = useRecentActivitiesComponent();
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
   const renderItems = (
     <View style={styles.activityContainer}>
       <ActivitySummary activities={filteredActivities} />
-      {isLoading ? (
-        <ActivityListLoading />
-      ) : (
-        <ActivityList activities={filteredActivities} />
-      )}
+
+      <ActivityList activities={filteredActivities} />
     </View>
   );
 

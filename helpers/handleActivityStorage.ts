@@ -5,7 +5,6 @@ import {
   ActivityType,
 } from "@/components/interface/Activity.interface";
 import { areSameDay } from "@/helpers/areSameDay";
-import { getDays } from "./getDays";
 
 const saveActivityToStorage = async (
   activity: Omit<Activity, "id" | "date">
@@ -18,23 +17,10 @@ const saveActivityToStorage = async (
     } as Activity;
     const storedData = await AsyncStorage.getItem("activities");
     let activityList = storedData ? JSON.parse(storedData) : [];
-    const checkActivity = await getSavedActivity(activity.type);
 
+    newActivity.id = new Date().toISOString();
+    activityList.push(newActivity);
 
-    if (checkActivity) {
-      activityList = activityList.map((element: Activity) => {
-        if (element.id === checkActivity.id) {
-          return {
-            ...element,
-            ...newActivity,
-          };
-        }
-        return element;
-      });
-    } else {
-      newActivity.id = new Date().toISOString();
-      activityList.push(newActivity);
-    }
     await AsyncStorage.setItem("activities", JSON.stringify(activityList));
   } catch (error) {
     Alert.alert("Error", "Failed to save activity.");
@@ -42,22 +28,6 @@ const saveActivityToStorage = async (
   }
 };
 
-const clearActivityFromStorage = async (activityType: ActivityType) => {
-  try {
-    const storedData = await AsyncStorage.getItem("activities");
-    const activityList = storedData ? JSON.parse(storedData) : [];
-
-    const newActivityList = JSON.parse(JSON.stringify(activityList));
-
-    const filteredList = newActivityList.filter((_activity: Activity) => {
-      const checkSameDay = areSameDay(new Date(), new Date(_activity.date));
-      return !(_activity.type == activityType && checkSameDay);
-    });
-    await AsyncStorage.setItem("activities", JSON.stringify(filteredList));
-  } catch (error) {
-    Alert.alert("Error", "Failed to clear history.");
-  }
-};
 const clearActivities = async () => {
   try {
     await AsyncStorage.removeItem("activities");
@@ -95,6 +65,5 @@ export {
   loadActivities,
   getSavedActivity,
   clearActivities,
-  clearActivityFromStorage,
   saveActivityToStorage,
 };

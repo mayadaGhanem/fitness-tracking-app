@@ -1,5 +1,4 @@
 import {
-  initialState,
   resetStopwatch,
   setData,
   setIsRunning,
@@ -11,15 +10,8 @@ import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateCalories } from "@/helpers/getCalories";
 import { convertStepsToKm } from "@/helpers/convertStepsToKm";
-import { calculateWeightLossByDurationInSeconds } from "@/helpers/calculateWeightLoss";
-import {
-  clearActivityFromStorage,
-  getSavedActivity,
-  saveActivityToStorage,
-} from "@/helpers/handleActivityStorage";
+import { saveActivityToStorage } from "@/helpers/handleActivityStorage";
 import * as BackgroundFetch from "expo-background-fetch";
-import { getDays } from "@/helpers/getDays";
-import { StopwatchState } from "@/redux/StopWatch/StopWatch.interface";
 
 export function useSteps() {
   const dispatch = useDispatch();
@@ -39,12 +31,11 @@ export function useSteps() {
 
   const updatePedoMeterSteps = async () => {
     if (isRunning && isPedometerAvailable) {
-      const { steps } = await currentActivity();
       intervalId = setInterval(() => {
         setDurationState((prev) => ++prev);
       }, 1000);
       stepWatch = Pedometer.watchStepCount((result) => {
-        const newSteps = result.steps + steps;
+        const newSteps = result.steps;
         const calculatedCalories = calculateCalories(weight, newSteps);
         setStepsData({
           stepsCountState: newSteps,
@@ -59,13 +50,14 @@ export function useSteps() {
       stepWatch.remove();
     }
     dispatch(setIsRunning(false));
+    if (!stepsCountState) {
+      resetStopwatchHandler();
+      Alert.alert("your steps zero please start move");
+      return;
+    }
 
     const calculatedDistance = convertStepsToKm(stepsCountState);
-    const totalDeficit = calculateWeightLossByDurationInSeconds(
-      caloriesState,
-      durationState
-    );
-    const newWeight = weight - totalDeficit;
+
     await saveActivityToStorage({
       steps: stepsCountState,
       duration: durationState,
@@ -73,17 +65,7 @@ export function useSteps() {
       calories: caloriesState,
       distance: calculatedDistance,
     });
-    dispatch(
-      setData({
-        steps: stepsCountState,
-        isRunning: false,
-        duration: durationState,
-        calories: caloriesState,
-        distance: calculatedDistance,
-        weight: newWeight,
-        type,
-      })
-    );
+    resetStopwatchHandler();
   };
 
   const handlePedometerPermission = async () => {
@@ -113,27 +95,6 @@ export function useSteps() {
     }
   };
 
-  const { today } = getDays();
-  const currentActivity = async () => {
-    const activity =
-      (await getSavedActivity(type, today.toISOString())) ?? initialState;
-    let currentActivity: StopwatchState = {
-      ...initialState,
-      ...activity,
-      type,
-      isRunning: false,
-    };
-    return currentActivity;
-  };
-
-  const checkActivity = async () => {
-    const activity = await currentActivity();
-    setStepsData({
-      stepsCountState: activity.steps,
-      caloriesState: activity.calories,
-    });
-    setDurationState(activity.duration);
-  };
   // Handle background fetch and register task
   useEffect(() => {
     const startBackgroundFetch = async () => {
@@ -146,7 +107,6 @@ export function useSteps() {
 
     startBackgroundFetch();
     checkPedometerAvailability();
-    checkActivity();
 
     return () => {
       BackgroundFetch.unregisterTaskAsync("BACKGROUND_STOPWATCH");
@@ -158,15 +118,10 @@ export function useSteps() {
   }, []);
 
   const resetStopwatchHandler = async () => {
-    await clearActivityFromStorage(stopwatchState.type);
     dispatch(resetStopwatch());
     setStepsData(initial);
     setDurationState(0);
   };
-
-  useEffect(() => {
-    checkActivity();
-  }, [type]);
 
   useEffect(() => {
     updatePedoMeterSteps();

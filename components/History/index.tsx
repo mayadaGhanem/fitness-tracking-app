@@ -14,9 +14,11 @@ import DetailedActivityCard from "@/components/RecentActivities/DetailedActivity
 import { useHistoryActivityComponent } from "@/hooks/useHistoryActivityComponent";
 import NoData from "@/components/RecentActivities/NoData";
 import ActivityListLoading from "../RecentActivities/ActivityListLoading";
+import IconButton from "../ui/IconButton";
+import { exportData } from "@/helpers/exportJson";
 
 type flatListItemHeader = { type: string; title: string; id: string };
-type flatListItem = flatListItemHeader | Activity;
+export type flatListItem = flatListItemHeader | Activity;
 
 const SectionHeader = (title: string) => {
   return <Text style={styles.subHeader}>{title}</Text>;
@@ -25,7 +27,7 @@ export default function History() {
   // split logic
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
-  const { dataForFlatList, handleDateChange, selectedDate, isLoading } =
+  const { dataForFlatList, handleDateChange, selectedDate } =
     useHistoryActivityComponent();
 
   const renderFlatListItem = ({ item }: { item: flatListItem | Activity }) => {
@@ -45,18 +47,25 @@ export default function History() {
         handleDateChange={handleDateChange}
         selectedDate={selectedDate}
       />
-      {isLoading && <ActivityListLoading />}
-      {!isLoading &&
-        (dataForFlatList.length ? (
+
+      {dataForFlatList.length ? (
+        <View>
+          <IconButton
+            name="file-export"
+            color={Colors.dark.icon.active}
+            size={20}
+            onPress={() => exportData(dataForFlatList)}
+          />
           <FlatList
             data={dataForFlatList}
             renderItem={renderFlatListItem}
             keyExtractor={(item) => item.id}
             scrollEnabled={!isLandscape}
           />
-        ) : (
-          <NoData />
-        ))}
+        </View>
+      ) : (
+        <NoData />
+      )}
     </View>
   );
 

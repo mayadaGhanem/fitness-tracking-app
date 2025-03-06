@@ -52,17 +52,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   itemContainer: {
-    paddingVertical: 10, // Add padding to the list itself
+    paddingVertical: 10, 
   },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     gap: 16,
+    marginBottom:72
   },
   listContainer: {
     justifyContent: "flex-start",
     alignItems: "flex-start",
+    gap: 16,
   },
   landscapeHeader: {
     paddingVertical: 8,

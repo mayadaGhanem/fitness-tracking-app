@@ -17,8 +17,8 @@ import { calculateCalories } from "@/helpers/getCalories";
 import { Pedometer } from "expo-sensors";
 import { getSavedActivity } from "@/helpers/handleActivityStorage";
 
-
 let intervalId: any;
+let stepWatch: Pedometer.Subscription;
 // Define the background task
 TaskManager.defineTask("BACKGROUND_STOPWATCH", async () => {
   try {
@@ -29,7 +29,7 @@ TaskManager.defineTask("BACKGROUND_STOPWATCH", async () => {
       intervalId = setInterval(() => {
         store.dispatch(setDuration());
       }, 1000);
-      Pedometer.watchStepCount((result) => {
+      stepWatch = Pedometer.watchStepCount((result) => {
         const newSteps = result.steps + activity.steps;
         const calculatedCalories = calculateCalories(weight, newSteps);
         store.dispatch(
@@ -50,6 +50,9 @@ TaskManager.defineTask("BACKGROUND_STOPWATCH", async () => {
     // Clear the interval regardless of success or failure to avoid memory leaks
     if (intervalId) {
       clearInterval(intervalId);
+    }
+    if (stepWatch) {
+      stepWatch.remove();
     }
   }
 });

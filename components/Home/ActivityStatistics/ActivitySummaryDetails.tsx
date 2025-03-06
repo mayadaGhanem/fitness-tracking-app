@@ -2,9 +2,8 @@ import { Colors } from "@/constants/Colors";
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 import { View } from "react-native";
-import { Activity } from "../../interface/Activity.interface";
 import { convertSecondsToHoursMinutes } from "@/helpers/formatDuration";
- 
+
 function Differentiation({ text }: { text: string }) {
   return <Text style={styles.differentiationText}>{text}</Text>;
 }
@@ -40,25 +39,28 @@ function Container({
 }
 
 export default function ActivitySummaryDetails({
-  activity,
+  totalCalories,
+  totalDistance,
+  totalDuration,
 }: {
-  activity: Partial<Activity> | null;
+  totalCalories: number;
+  totalDistance: number;
+  totalDuration: number;
 }) {
-  const { distance = 0, calories = 0, duration = 0 } = activity ?? {};
   return (
     <View style={styles.container}>
       <Container
-        value={distance.toString()}
+        value={totalDistance.toString()}
         differentiationHeader={"Distance"}
         differentiation="km"
       />
       <Container
-        value={calories.toString()}
+        value={totalCalories.toString()}
         differentiationHeader={"Calories"}
         differentiation="Col"
       />
       <Container
-        value={convertSecondsToHoursMinutes(duration)}
+        value={convertSecondsToHoursMinutes(totalDuration)}
         differentiationHeader={"Active Time"}
         differentiation=""
       />
